@@ -7,16 +7,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/nes.css/css/nes.min.css">
   <style>
+    @keyframes glowing-background {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
     body {
-      background-color: #1d1f21;
+      background: linear-gradient(270deg, #1d1f21, #333333, #1d1f21);
+      background-size: 400% 400%;
+      animation: glowing-background 8s ease infinite;
       color: white;
       font-family: 'Press Start 2P', monospace;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
       flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 20px;
     }
     .profile-container {
       display: flex;
@@ -33,6 +46,11 @@
       background-color: #2c2f33;
       margin-bottom: 15px;
     }
+    .profile-image img {
+      width: 100%;
+      height: 100%;
+      border-radius: 15px;
+    }
     .profile {
       text-align: center;
       border: 4px solid #f8d210;
@@ -48,98 +66,62 @@
       font-size: 0.8rem;
       margin: 5px 0;
     }
-    .social-container {
+    .card-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 10px;
-      width: 90%;
-      max-width: 600px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 15px;
+      width: 100%;
+      max-width: 1000px;
     }
-    .social-link {
+    .card {
       text-decoration: none;
       color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s, box-shadow 0.3s;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-      position: relative;
-      transition: all 0.3s;
+      text-align: center;
     }
-    .social-link:hover {
+    .card img {
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .card:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 10px currentColor;
+      box-shadow: 0 0 20px currentColor;
     }
-    .social-link:hover::before {
-      content: attr(data-LegacyMartian);
-      position: absolute;
-      top: -25px;
-      background: black;
-      color: white;
-      padding: 5px;
-      border-radius: 5px;
-      font-size: 0.8rem;
-      white-space: nowrap;
-    }
-    .youtube {
-      background-color: #FF0000;
-    }
-    .twitch {
-      background-color: #9146FF;
-    }
-    .twitter {
+    .card:nth-child(1) { background-color: #0077B5; }
+    .card:nth-child(2) { background-color: #FF4500; }
+    .card:nth-child(3) { background-color: #9146FF; }
+    .card:nth-child(4) { background-color: #1DA1F2; }
+    .card:nth-child(5) { background-color: #FF0000; }
+    .card:nth-child(6) { background-color: #E4405F; }
+    .card:nth-child(7) { background-color: #7289DA; }
+    .card:nth-child(8) { background-color: #FFFC00; color: black; }
+    .card:nth-child(9) { background-color: #E60023; }
+    .card:nth-child(10) { background-color: #25D366; }
+    .card:nth-child(11) { background-color: #35465C; }
+    .form-card {
+      text-align: center;
+      padding: 20px;
+      border-radius: 10px;
       background-color: #1DA1F2;
+      color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-decoration: none;
+      margin-top: 30px;
+      width: 90%;
+      max-width: 500px;
     }
-    .facebook {
-      background-color: #1877F2;
-    }
-    .mastodon {
-      background-color: #6364FF;
-    }
-    .bsky {
-      background-color: #5C87F0;
-    }
-    .threads {
-      background-color: #000000;
-    }
-    .instagram {
-      background-color: #E4405F;
-    }
-    .reddit {
-      background-color: #FF4500;
-    }
-    .snapchat {
-      background-color: #FFFC00;
-      color: black;
-    }
-    .discord {
-      background-color: #7289DA;
-    }
-    .tiktok {
-      background-color: #010101;
-    }
-    .linkedin {
-      background-color: #0077B5;
-    }
-    .whatsapp {
-      background-color: #25D366;
-    }
-    .telegram {
-      background-color: #0088CC;
-    }
-    .pinterest {
-      background-color: #E60023;
-    }
-    .quora {
-      background-color: #B92B27;
-    }
-    .signal {
-      background-color: #3A76F0;
-    }
-    .tumblr {
-      background-color: #35465C;
+    .form-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
     }
     footer {
       margin-top: 30px;
@@ -150,38 +132,67 @@
 </head>
 <body>
   <div class="profile-container">
-  <div class="profile-image">
-    <img src="https://LegacyMartian.github.io/legacy%20martian%20pfp.png" alt="Profile Picture" style="width: 100%; height: 100%; border-radius: 15px;">
+    <div class="profile-image">
+      <img src="https://LegacyMartian.github.io/legacy%20martian%20pfp.png" alt="Profile Picture">
+    </div>
+    <div class="profile nes-container is-rounded">
+      <h1>@LegacyMartian</h1>
+      <p> - Daily Live from 3pm to 6pm NZDT</p>
+      <p> - Uploading YT video daily</p>
+    </div>
   </div>
-  <div class="profile nes-container is-rounded">
-    <h1>Goals 2025</h1>
-    <p> - Daily Live from 3pm to 6pm NZDT</p>
-    <p> - Uploading YT video daily</p>
-  </div>
-</div>
 
-
-  <div class="social-container">
-    <a href="https://www.youtube.com/LegacyMartian" class="social-link youtube" data-LegacyMartian="LegacyMartian">YouTube 📹</a>
-    <a href="https://www.twitch.tv/LegacyMartian" class="social-link twitch" data-LegacyMartian="LegacyMartian">Twitch 🎮</a>
-    <a href="https://www.twitter.com/LegacyMartian" class="social-link twitter" data-LegacyMartian="LegacyMartian">X/Twitter ✏️</a>
-    <a href="https://www.facebook.com/LegacyMartian" class="social-link facebook" data-LegacyMartian="LegacyMartian">Facebook 📘</a>
-    <a href="https://mastodon.social/@LegacyMartian" class="social-link mastodon" data-LegacyMartian="LegacyMartian">Mastodon 🐘</a>
-    <a href="https://bsky.app/profile/LegacyMartian" class="social-link bsky" data-LegacyMartian="LegacyMartian">Bsky 🦋</a>
-    <a href="https://www.threads.net/@LegacyMartian" class="social-link threads" data-LegacyMartian="LegacyMartian">Threads ⏳</a>
-    <a href="https://www.instagram.com/LegacyMartian" class="social-link instagram" data-LegacyMartian="LegacyMartian">Instagram 🌶️</a>
-    <a href="https://www.reddit.com/user/LegacyMartian" class="social-link reddit" data-LegacyMartian="LegacyMartian">Reddit 📝</a>
-    <a href="https://www.snapchat.com/add/LegacyMartian" class="social-link snapchat" data-LegacyMartian="LegacyMartian">Snapchat 👻</a>
-    <a href="https://discord.com/users/LegacyMartian" class="social-link discord" data-LegacyMartian="LegacyMartian">Discord 🎧</a>
-    <a href="https://www.tiktok.com/@LegacyMartian" class="social-link tiktok" data-LegacyMartian="LegacyMartian">TikTok 🎵</a>
-    <a href="https://www.linkedin.com/in/LegacyMartian" class="social-link linkedin" data-LegacyMartian="LegacyMartian">LinkedIn 🔗</a>
-    <a href="https://wa.me/LegacyMartian" class="social-link whatsapp" data-LegacyMartian="LegacyMartian">WhatsApp 💬</a>
-    <a href="https://t.me/LegacyMartian" class="social-link telegram" data-LegacyMartian="LegacyMartian">Telegram ✉️</a>
-    <a href="https://www.pinterest.com/LegacyMartian" class="social-link pinterest" data-LegacyMartian="LegacyMartian">Pinterest 📌</a>
-    <a href="https://www.quora.com/profile/LegacyMartian" class="social-link quora" data-LegacyMartian="LegacyMartian">Quora ❓</a>
-    <a href="https://signal.group/#LegacyMartian" class="social-link signal" data-LegacyMartian="LegacyMartian">Signal 📲</a>
-    <a href="https://www.tumblr.com/blog/view/LegacyMartian" class="social-link tumblr" data-LegacyMartian="LegacyMartian">Tumblr ✍️</a>
+  <div class="card-container">
+    <a href="https://allmysocials.github.io/index.html" class="card">
+      <img src="https://LegacyMartian.github.io/legacy%20martian%20pfp.png" alt="Profile Picture">
+      <h2>LegacyMartian</h2>
+    </a>
+    <a href="https://allmysocials.github.io/BrotherverseX.html" class="card">
+      <img src="https://LegacyMartian.github.io/legacy%20martian%20pfp.png" alt="Profile Picture">
+      <h2>BrotherverseX</h2>
+    </a>
+    <a href="https://allmysocials.github.io/MovieByMacaffe.html" class="card">
+      <img src="https://LegacyMartian.github.io/legacy%20martian%20pfp.png" alt="Profile Picture">
+      <h2>MovieByMacaffe</h2>
+    </a>
+    <a href="https://allmysocials.github.io/WENS.html" class="card">
+      <img src="https://LegacyMartian.github.io/legacy%20martian%20pfp.png" alt="Profile Picture">
+      <h2>WENS</h2>
+    </a>
+    <a href="https://allmysocials.github.io/bizaropeter.html" class="card">
+      <img src="https://LegacyMartian.github.io/legacy%20martian%20pfp.png" alt="Profile Picture">
+      <h2>Bizaropeter</h2>
+    </a>
+    <a href="https://allmysocials.github.io/rkg.html" class="card">
+      <img src="https://LegacyMartian.github.io/legacy%20martian%20pfp.png" alt="Profile Picture">
+      <h2>RKG</h2>
+    </a>
+    <a href="https://allmysocials.github.io/shadypeterlive.html" class="card">
+      <img src="https://LegacyMartian.github.io/legacy%20martian%20pfp.png" alt="Profile Picture">
+      <h2>Shadypeterlive</h2>
+    </a>
+    <a href="https://allmysocials.github.io/valentinecoolio.html" class="card">
+      <img src="https://LegacyMartian.github.io/legacy%20martian%20pfp.png" alt="Profile Picture">
+      <h2>ValentineCoolio</h2>
+    </a>
+    <a href="https://allmysocials.github.io/xvbrznem.html" class="card">
+      <img src="https://LegacyMartian.github.io/legacy%20martian%20pfp.png" alt="Profile Picture">
+      <h2>Xvbrznem</h2>
+    </a>
+    <a href="https://allmysocials.github.io/xwlasxd.html" class="card">
+      <img src="https://LegacyMartian.github.io/legacy%20martian%20pfp.png" alt="Profile Picture">
+      <h2>Xwlasxd</h2>
+    </a>
+    <a href="https://allmysocials.github.io/zxckjsdv.html" class="card">
+      <img src="https://LegacyMartian.github.io/legacy%20martian%20pfp.png" alt="Profile Picture">
+      <h2>Zxckjsdv</h2>
+    </a>
   </div>
+
+  <a href="https://forms.google.com" class="form-card">
+    <h2>Submit Your Page</h2>
+    <p>Fill out the Google form to add your links</p>
+  </a>
 
   <footer>Copyright © 2024 LegacyMartian.blog All rights reserved.</footer>
 </body>
